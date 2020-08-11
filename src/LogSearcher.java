@@ -38,10 +38,10 @@ public class LogSearcher {
 
 
     public void readFile() {
-        BufferedReader br = null;
+        BufferedReader bufferedReader = null;
         {
             try {
-                br = new BufferedReader(new FileReader(pathLogFile));
+                bufferedReader = new BufferedReader(new FileReader(pathLogFile));
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
             }
@@ -50,7 +50,7 @@ public class LogSearcher {
             String sCurrentLine = null;
             while (true) {
                 try {
-                    if (!((sCurrentLine = br.readLine()) != null)) break;
+                    if ((sCurrentLine = bufferedReader.readLine()) == null) break;
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -67,13 +67,14 @@ public class LogSearcher {
         FileWriter writer = null;
 
         try {
+            String fileName = fileNameBasedOnDate();
 
-            file = new File(pathOutput + fileNameBasedOnDate());
+            file = new File(pathOutput + fileName);
 
             if (file.createNewFile())
-                System.out.println("File created");
+                System.out.println("      File created...");
             else
-                System.out.println("File already exists");
+                System.out.println("      File already exists...");
 
 
             writer = new FileWriter(file);
@@ -82,12 +83,17 @@ public class LogSearcher {
                 writer.write(logLine + "\n");
             }
 
+            System.out.println("Search for \""+needle+"\" is finished:\n" +
+                    "you can find the results here:\n" + pathOutput + fileName);
+
+
             writer.flush();
             writer.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 
