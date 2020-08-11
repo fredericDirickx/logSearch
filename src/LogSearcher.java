@@ -21,7 +21,7 @@ public class LogSearcher {
 
 
     public void findNeedles(ArrayList<String> needles) {
-        LogSearcher logSearcher = new LogSearcher(pathLogFile,pathOutput);
+        LogSearcher logSearcher = this;
         logSearcher.readFile();
 
         for (String needle : needles) {
